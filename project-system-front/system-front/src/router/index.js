@@ -76,6 +76,24 @@ export const constantRoutes = [
         component: () => import("@/views/system/sysUser/list"),
         meta: { title: "User Management", icon: "tree" },
       },
+      {
+        name: "sysMenu",
+        path: "sysMenu",
+        component: () => import("@/views/system/sysMenu/list"),
+        meta: {
+          title: "Menu Management",
+          icon: "el-icon-s-unfold",
+        },
+      },
+      {
+        path: "assignAuth",
+        component: () => import("@/views/system/sysRole/assignAuth"),
+        meta: {
+          activeMenu: "/system/sysRole",
+          title: "Role Authorization",
+        },
+        hidden: true,
+      },
     ],
   },
 

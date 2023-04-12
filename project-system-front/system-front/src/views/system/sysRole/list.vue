@@ -75,6 +75,13 @@
             @click="removeDataById(scope.row.id)"
             title="Delete"
           />
+          <el-button
+            type="warning"
+            icon="el-icon-baseball"
+            size="mini"
+            @click="showAssignAuth(scope.row)"
+            title="Authority assignment"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -148,7 +155,14 @@ export default {
 
   //  Define Method
   methods: {
-    //Called when a multi-select option changes
+    // Jump to assign menu authority
+    showAssignAuth(row) {
+      this.$router.push(
+        "/system/assignAuth?id=" + row.id + "&roleName=" + row.roleName
+      );
+    },
+
+    // Called when a multi-select option changes
     handleSelectionChange(selection) {
       this.selectValue = selection;
       //console.log(this.selectValue);
