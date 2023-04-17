@@ -1,9 +1,10 @@
 package com.project.system.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.model.system.SysRoleMenu;
-import com.project.model.system.SysUser;
 import com.project.model.vo.AssginMenuVo;
+import com.project.model.vo.RouterVo;
 import com.project.system.exception.CustomException;
 import com.project.system.mapper.SysRoleMenuMapper;
 import com.project.system.utils.MenuHelper;
@@ -11,6 +12,7 @@ import com.project.model.system.SysMenu;
 import com.project.system.mapper.SysMenuMapper;
 import com.project.system.service.SysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.project.system.utils.RouterHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +116,51 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysRoleMenuMapper.insert(sysRoleMenu);
         }
     }
+
+    //Query menu permission values based on userid
+    @Override
+    public List<RouterVo> getUserMenuList(String userId) {
+        //admin is the super administrator and operates all content
+        List<SysMenu> sysMenuList = null;
+        //Determine the userid value, 1 is for super administrator, query all permission data
+        if("1".equals(userId)) {
+            QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
+            wrapper.eq("status",1);
+            wrapper.orderByAsc("sort_value");
+            sysMenuList = baseMapper.selectList(wrapper);
+        } else {
+            //If userid is not 1, then it is other type of user, query this user permission
+            sysMenuList = baseMapper.findMenuListUserId(userId);
+        }
+
+        //tree structure
+        List<SysMenu> sysMenuTreeList = MenuHelper.buildTree(sysMenuList);
+
+        //Convert data into the format required by the front-end routing
+        List<RouterVo> routerVoList = RouterHelper.buildRouters(sysMenuTreeList);
+        return routerVoList;
+    }
+
+    //Query button permission values based on userid
+    @Override
+    public List<String> getUserButtonList(String userId) {
+        List<SysMenu> sysMenuList = null;
+        //check if the user is the admin
+        if("1".equals(userId)){
+            sysMenuList = baseMapper.selectList(new QueryWrapper<SysMenu>().eq("status", 1));
+        } else {
+            sysMenuList = baseMapper.findMenuListUserId(userId);
+        }
+        //Iterate through sysMenuList
+        List<String> permissionList = new ArrayList<>();
+        for (SysMenu sysMenu : sysMenuList) {
+        // type=2 => button
+            if (sysMenu.getType()==2){
+                String perms = sysMenu.getPerms();
+                permissionList.add(perms);
+            }    
+        }
+            return permissionList;
+        }
 }
 

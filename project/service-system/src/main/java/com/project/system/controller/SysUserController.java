@@ -4,6 +4,7 @@ package com.project.system.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.common.result.Result;
+import com.project.common.utils.MD5;
 import com.project.model.system.SysUser;
 import com.project.model.vo.SysUserQueryVo;
 import com.project.system.service.SysUserService;
@@ -57,6 +58,9 @@ public class SysUserController {
     @ApiOperation(value = "添加用户")
     @PostMapping("save")
     public Result save(@RequestBody SysUser user) {
+        //Encrypt the password MD5
+        String encrypt = MD5.encrypt(user.getPassword());
+        user.setPassword(encrypt);
        boolean is_Success = sysUserService.save(user);
        if(is_Success){
            return Result.ok();

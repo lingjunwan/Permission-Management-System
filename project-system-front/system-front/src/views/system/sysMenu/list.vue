@@ -2,8 +2,13 @@
   <div class="app-container">
     <!-- Toolbar -->
     <div class="tools-div">
-      <el-button type="success" icon="el-icon-plus" size="mini" @click="add()"
-        >Create</el-button
+      <el-button
+        type="success"
+        icon="el-icon-plus"
+        size="mini"
+        @click="add()"
+        :disabled="$hasBP('bnt.sysMenu.add') === false"
+        >Add</el-button
       >
     </div>
     <el-table
@@ -47,6 +52,7 @@
             icon="el-icon-plus"
             size="mini"
             @click="add(scope.row)"
+            :disabled="$hasBP('bnt.sysMenu.add') === false"
             title="Add subordinate nodes"
           />
           <el-button
@@ -54,6 +60,7 @@
             icon="el-icon-edit"
             size="mini"
             @click="edit(scope.row)"
+            :disabled="$hasBP('bnt.sysMenu.update') === false"
             title="Edit"
           />
           <el-button
@@ -61,8 +68,11 @@
             icon="el-icon-delete"
             size="mini"
             @click="removeDataById(scope.row.id)"
+            :disabled="
+              $hasBP('bnt.sysMenu.delete') === false ||
+              scope.row.children.length > 0
+            "
             title="Delete"
-            :disabled="scope.row.children.length > 0"
           />
         </template>
       </el-table-column>
@@ -326,7 +336,7 @@ export default {
         });
     },
 
-    //弹出添加或更新的表单
+    // Pop-up form for adding or updating
     add(row) {
       debugger;
       this.typeDisabled = false;

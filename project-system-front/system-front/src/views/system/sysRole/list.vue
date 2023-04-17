@@ -32,8 +32,13 @@
 
     <!-- tools-div -->
     <div class="tools-div">
-      <el-button type="success" icon="el-icon-plus" size="mini" @click="add"
-        >Create</el-button
+      <el-button
+        type="success"
+        icon="el-icon-plus"
+        size="mini"
+        @click="add"
+        :disabled="$hasBP('bnt.sysRole.add') === false"
+        >Add</el-button
       >
       <el-button class="btn-add" size="mini" @click="batchRemove()"
         >Batch Remove</el-button
@@ -66,6 +71,7 @@
             icon="el-icon-edit"
             size="mini"
             @click="edit(scope.row.id)"
+            :disabled="$hasBP('bnt.sysRole.update') === false"
             title="Edit"
           />
           <el-button
@@ -73,6 +79,7 @@
             icon="el-icon-delete"
             size="mini"
             @click="removeDataById(scope.row.id)"
+            :disabled="$hasBP('bnt.sysRole.remove') === false"
             title="Delete"
           />
           <el-button
@@ -80,6 +87,7 @@
             icon="el-icon-baseball"
             size="mini"
             @click="showAssignAuth(scope.row)"
+            :disabled="$hasBP('bnt.sysRole.assignAuth') === false"
             title="Authority assignment"
           />
         </template>

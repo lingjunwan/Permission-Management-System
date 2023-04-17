@@ -7,6 +7,9 @@ const getDefaultState = () => {
     token: getToken(),
     name: "",
     avatar: "",
+
+    buttons: [], // newly added buttons
+    menus: "", //newly added menus
   };
 };
 
@@ -24,6 +27,15 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar;
+  },
+
+  // newly added buttons
+  SET_BUTTONS: (state, buttons) => {
+    state.buttons = buttons;
+  },
+  // newly added menus
+  SET_MENUS: (state, menus) => {
+    state.menus = menus;
   },
 };
 
@@ -60,6 +72,9 @@ const actions = {
 
           commit("SET_NAME", name);
           commit("SET_AVATAR", avatar);
+
+          commit("SET_BUTTONS", data.buttons);
+          commit("SET_MENUS", data.routers);
           resolve(data);
         })
         .catch((error) => {

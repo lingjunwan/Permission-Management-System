@@ -3,6 +3,7 @@ package com.project.system.service;
 import com.project.model.system.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.project.model.vo.AssginMenuVo;
+import com.project.model.vo.RouterVo;
 
 import java.util.List;
 
@@ -29,4 +30,10 @@ public interface SysMenuService extends IService<SysMenu> {
 
     //Assign menu permissions to roles
     void doAssign(AssginMenuVo assginMenuVo);
+
+    //Query menu permission values based on userid
+    List<RouterVo> getUserMenuList(String id);
+
+    //Query button permission values based on userid
+    List<String> getUserButtonList(String id);
 }

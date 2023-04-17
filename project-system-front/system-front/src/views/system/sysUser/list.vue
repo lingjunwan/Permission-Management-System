@@ -43,8 +43,13 @@
 
     <!-- Toolbar -->
     <div class="tools-div">
-      <el-button type="success" icon="el-icon-plus" size="mini" @click="add"
-        >Create</el-button
+      <el-button
+        type="success"
+        icon="el-icon-plus"
+        size="mini"
+        @click="add"
+        :disabled="$hasBP('bnt.sysUser.add') === false"
+        >Add</el-button
       >
     </div>
 
@@ -83,6 +88,7 @@
             icon="el-icon-edit"
             size="mini"
             @click="edit(scope.row.id)"
+            :disabled="$hasBP('bnt.sysUser.update') === false"
             title="Edit"
           />
           <el-button
@@ -90,6 +96,7 @@
             icon="el-icon-delete"
             size="mini"
             @click="removeDataById(scope.row.id)"
+            :disabled="$hasBP('bnt.sysUser.remove') === false"
             title="Delete"
           />
           <el-button
@@ -97,6 +104,7 @@
             icon="el-icon-baseball"
             size="mini"
             @click="showAssignRole(scope.row)"
+            :disabled="$hasBP('bnt.sysUser.assignRole') === false"
             title="Assign Roles"
           />
         </template>
@@ -115,7 +123,7 @@
 
     <el-dialog title="Assign Roles" :visible.sync="dialogRoleVisible">
       <el-form label-width="80px">
-        <el-form-item label="用户名字">
+        <el-form-item label="username">
           <el-input disabled :value="sysUser.username"></el-input>
         </el-form-item>
 

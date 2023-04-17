@@ -2,6 +2,9 @@ package com.project.system.mapper;
 
 import com.project.model.system.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
+    //find menu permission data by userid
+    List<SysMenu> findMenuListUserId(@Param("userId") String userId);
 }
