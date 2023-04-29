@@ -11,6 +11,7 @@ import com.project.system.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class SysRoleController {
     //7.Batch Remove
     //multiple id value [1,2,3]
     //json array format -- java's list collection
+    @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("batchRemove")
     public Result batchRemove(@RequestBody List<Long> ids) {
@@ -51,6 +53,7 @@ public class SysRoleController {
 
 
     //6.Update-FinalUpdate
+    @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     @ApiOperation("最终修改")
     @PutMapping("update")
     public Result updateRole(@RequestBody SysRole sysRole){
@@ -63,6 +66,7 @@ public class SysRoleController {
     }
 
     //5.Update-FindById
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation("根据id查询")
     @PostMapping("findRoleById/{id}")
     public Result findRoleById(@PathVariable Long id) {
@@ -73,6 +77,7 @@ public class SysRoleController {
     //4.Add
     //@ResquestBody cannot be submitted using the @GetMapping
     //Pass json format data, wrap json format data into an object {...}
+    @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
     @PostMapping("save")
     public Result saveRole(@RequestBody SysRole sysRole) {
@@ -87,6 +92,7 @@ public class SysRoleController {
 
     //3.Conditional Paging Query
     // page for Current page, limit for Number of records per page
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation("条件分页查询")
     @GetMapping("{page}/{limit}")
     public Result findPageQueryRole(@PathVariable Long page,
@@ -102,6 +108,7 @@ public class SysRoleController {
 
 
     //2.Logical Deletion interface
+    @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation("逻辑删除接口")
     @DeleteMapping("remove/{id}")
     public Result removeRole(@PathVariable Long id){
