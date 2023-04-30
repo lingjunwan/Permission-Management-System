@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.common.result.Result;
 import com.project.common.result.ResultCodeEnum;
+import com.project.common.utils.IpUtil;
 import com.project.common.utils.JwtHelper;
 import com.project.common.utils.ResponseUtil;
 import com.project.model.vo.LoginVo;
 import com.project.system.custom.CustomUser;
+import com.project.system.service.LoginLogService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,13 +34,18 @@ import java.util.Map;
 //Authentication filter, login verification for username and password
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private RedisTemplate redisTemplate;
+
+    private LoginLogService loginLogService;
     //Construct
-    public TokenLoginFilter(AuthenticationManager authenticationManager, RedisTemplate redisTemplate) {
+    public TokenLoginFilter(AuthenticationManager authenticationManager,
+                            RedisTemplate redisTemplate,
+                            LoginLogService loginLogService) {
         this.setAuthenticationManager(authenticationManager);
         this.setPostOnly(false);
         //Specify the login interface and submission method, you can specify any path
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/admin/system/index/login","POST"));
         this.redisTemplate = redisTemplate;
+        this.loginLogService = loginLogService;
     }
 
     //Get username & password for authentication
@@ -67,6 +74,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //Generate Token
         String token = JwtHelper.createToken(customUser.getSysUser().getId(), customUser.getSysUser().getUsername());
+
+        //记录日志
+        loginLogService.recordLoginLog(customUser.getUsername(), 1, IpUtil.getIpAddress(request), "Login successful");
 
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);

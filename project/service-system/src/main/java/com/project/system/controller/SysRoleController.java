@@ -6,6 +6,8 @@ import com.project.common.result.Result;
 import com.project.model.system.SysRole;
 import com.project.model.vo.AssginRoleVo;
 import com.project.model.vo.SysRoleQueryVo;
+import com.project.system.annotation.Log;
+import com.project.system.enums.BusinessType;
 import com.project.system.exception.CustomException;
 import com.project.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,8 @@ public class SysRoleController {
         return Result.ok(roleMap);
     }
 
+    @PreAuthorize("hasAuthority('bnt.sysRole.assign')")
+    @Log(title = "Role Management", businessType = BusinessType.ASSGIN)
     @ApiOperation(value = "用户分配角色")
     @PostMapping("doAssign")
     public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
@@ -43,6 +47,7 @@ public class SysRoleController {
     //7.Batch Remove
     //multiple id value [1,2,3]
     //json array format -- java's list collection
+    @Log(title = "Role Management", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("batchRemove")
@@ -53,6 +58,7 @@ public class SysRoleController {
 
 
     //6.Update-FinalUpdate
+    @Log(title = "Role Management", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     @ApiOperation("最终修改")
     @PutMapping("update")
@@ -77,6 +83,7 @@ public class SysRoleController {
     //4.Add
     //@ResquestBody cannot be submitted using the @GetMapping
     //Pass json format data, wrap json format data into an object {...}
+    @Log(title = "Role Management", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
     @PostMapping("save")
@@ -108,6 +115,7 @@ public class SysRoleController {
 
 
     //2.Logical Deletion interface
+    @Log(title = "Role Management", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation("逻辑删除接口")
     @DeleteMapping("remove/{id}")
@@ -127,12 +135,6 @@ public class SysRoleController {
     @ApiOperation("查询所有记录")
     @GetMapping("/findAll")
     public Result findAllRole() {
-        //TODO Simulation of abnormal effects ArithmeticException
-        try {
-            int i = 9/0;
-        }catch(Exception e) {
-            throw new CustomException(20001,"Custom exception handling is implemented");
-        }
 
         //call service
         List<SysRole> list = sysRoleService.list();
