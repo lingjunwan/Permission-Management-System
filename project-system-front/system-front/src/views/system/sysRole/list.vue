@@ -63,7 +63,7 @@
 
       <el-table-column prop="roleName" label="Role Name" />
       <el-table-column prop="roleCode" label="Role Code" />
-      <el-table-column prop="createTime" label="Create Time" width="160" />
+      <el-table-column prop="createTime" label="Create Time" width="200" />
       <el-table-column label="Operation" width="200" align="center">
         <template slot-scope="scope">
           <el-button
@@ -143,7 +143,7 @@ export default {
   // Define the initial value
   data() {
     return {
-      listLoading: true, //  Whether the data is loading or not
+      listLoading: true, //  Show the sign if the data is loading or not
       list: [], //  Role List
       total: 0, //  Total number of records
       page: 1, //  Current page number

@@ -19,15 +19,15 @@
       :default-expand-all="false"
       :tree-props="{ children: 'children' }"
     >
-      <el-table-column prop="name" label="Name of menu" width="160" />
+      <el-table-column prop="name" label="Name of menu" width="200" />
       <el-table-column label="Icon">
         <template slot-scope="scope">
           <i :class="scope.row.icon"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="perms" label="Permission Mark" width="160" />
-      <el-table-column prop="path" label="Routing Path" width="120" />
-      <el-table-column prop="component" label="Component Path" width="160" />
+      <el-table-column prop="perms" label="Permission Mark" width="180" />
+      <el-table-column prop="path" label="Routing Path" width="180" />
+      <el-table-column prop="component" label="Component Path" width="180" />
       <el-table-column prop="sortValue" label="Sort" width="60" />
       <el-table-column label="Status" width="80">
         <template slot-scope="scope">
@@ -38,7 +38,7 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="Create Time" width="160" />
+      <el-table-column prop="createTime" label="Create Time" width="200" />
       <el-table-column
         label="Operation"
         width="180"
